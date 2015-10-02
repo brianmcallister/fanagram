@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "$(npm bin)/webpack-dev-server --content-base public/",
+    "build": "$(npm bin)/webpack"
   },
   "author": "",
   "license": "ISC",
