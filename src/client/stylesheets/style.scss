@@ -1,4 +1,9 @@
+@import '~susy';
 @import 'variables';
+
+.container {
+  @include container;
+}
 
 .blue {
   color: blue;
