@@ -1,3 +1,3 @@
-import './stylesheets/style.scss'
+import styles from './stylesheets/style.scss'
 
-console.log('hellooo');
+console.log('hello', styles);

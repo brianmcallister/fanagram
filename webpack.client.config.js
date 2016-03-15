@@ -23,7 +23,11 @@ module.exports = {
       {
         test: /.scss$/,
         include: path.resolve('src/client/stylesheets'),
-        loaders: ['style', 'css', 'sass']
+        loaders: [
+          'style',
+          'css?modules&importLoaders=1&localIdentName=[name]-[local]--[hash:base64:10]',
+          'sass'
+        ]
       }
     ]
   },
