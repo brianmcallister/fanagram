@@ -4,7 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "serve": "webpack --progress && node build/server.js"
+    "build-client": "webpack --progress --config webpack.client.config.js",
+    "build-server": "webpack --progress --config webpack.server.config.js",
+    "build-all": "npm run build-client && npm run build-server",
+    "start": "npm run build-all && node build/server.js"
   },
   "author": "",
   "license": "ISC",

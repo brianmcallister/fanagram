@@ -3,7 +3,7 @@ var path = require('path');
 module.exports = {
   name: 'fanagram server',
   target: 'node',
-  entry: path.resolve(__dirname, 'src/server.js'),
+  entry: path.resolve(__dirname, 'src/server/server.js'),
   output: {
     path: path.resolve(__dirname, 'build'),
     publicPath: '/public/',
