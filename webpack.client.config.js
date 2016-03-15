@@ -15,7 +15,16 @@ module.exports = {
   },
   module: {
     loaders: [
-      {test: /.jsx?$/, include: path.resolve('src'), loaders: ['babel']}
+      {
+        test: /.jsx?$/,
+        include: path.resolve('src'),
+        loaders: ['babel']
+      },
+      {
+        test: /.scss$/,
+        include: path.resolve('src/client/stylesheets'),
+        loaders: ['style', 'css', 'sass']
+      }
     ]
   },
   plugins: [
