@@ -10,7 +10,7 @@ module.exports = {
   ],
   output: {
     path: path.resolve('build/assets'),
-    publicPath: '/public/',
+    publicPath: 'http://localhost:8001/public/',
     filename: 'client.js'
   },
   module: {
