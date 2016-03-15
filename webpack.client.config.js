@@ -1,10 +1,15 @@
 var path = require('path');
+var webpack = require('webpack');
 
 module.exports = {
   name: 'fanagram client',
-  entry: path.resolve(__dirname, 'src/client/client.js'),
+  entry: [
+    'webpack-dev-server/client?http://localhost:8001',
+    'webpack/hot/only-dev-server',
+    path.resolve('src/client/client.js')
+  ],
   output: {
-    path: path.resolve(__dirname, 'build/assets'),
+    path: path.resolve('build/assets'),
     publicPath: '/public/',
     filename: 'client.js'
   },
@@ -12,5 +17,8 @@ module.exports = {
     loaders: [
       {test: /.jsx?$/, include: path.resolve('src'), loaders: ['babel']}
     ]
-  }
+  },
+  plugins: [
+    new webpack.HotModuleReplacementPlugin()
+  ]
 };

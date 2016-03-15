@@ -1,6 +1,8 @@
 import path from 'path';
 import express from 'express';
 
+import devServer from 'dev_server';
+
 let app = express();
 
 app.set('publicPath', '/public');
@@ -15,4 +17,8 @@ app.get('/', (req, res) => {
 
 app.listen(8000, () => {
   console.log('Listening on port', 8000);
+});
+
+devServer.listen(8001, () => {
+  console.log('Dev server listening on port', 8001);
 });

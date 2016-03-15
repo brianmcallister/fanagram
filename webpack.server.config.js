@@ -11,6 +11,12 @@ module.exports = {
     libraryTarget: 'commonjs2'
   },
   externals: /^[a-z\-0-9]+$/,
+  resolve: {
+    root: [
+      path.resolve('tools')
+    ],
+    extensions: ['', '.js', '.jsx']
+  },
   module: {
     loaders: [
       {test: /.jsx?$/, include: path.resolve('src'), loaders: ['babel']}
