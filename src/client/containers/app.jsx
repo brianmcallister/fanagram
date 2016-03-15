@@ -2,7 +2,7 @@ import React from 'react';
 import { Provider, connect } from 'react-redux';
 
 import { incrementCount } from 'actions';
-import HelloWorld from 'components/presentational/hello_world';
+import HelloWorld from 'components/hello_world';
 import styles from 'stylesheets/style.scss'
 
 const mapStateToProps = (state) => {
