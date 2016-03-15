@@ -12,3 +12,7 @@
     content: $hello;
   }
 }
+
+:global(p) {
+  @extend .blue;
+}

@@ -1,3 +1,9 @@
-import styles from './stylesheets/style.scss'
+import React from 'react';
+import ReactDOM from 'react-dom';
 
-console.log('hello', styles);
+import App from 'components/containers/app';
+
+ReactDOM.render(
+  React.createElement(App),
+  document.querySelector('.app-container')
+);

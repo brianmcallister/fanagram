@@ -13,19 +13,25 @@ module.exports = {
     publicPath: 'http://localhost:8001/public/',
     filename: 'client.js'
   },
+  resolve: {
+    root: [
+      path.resolve('src/client')
+    ],
+    extensions: ['', '.js', '.jsx']
+  },
   module: {
     loaders: [
       {
         test: /.jsx?$/,
         include: path.resolve('src'),
-        loaders: ['babel']
+        loaders: ['react-hot', 'babel']
       },
       {
         test: /.scss$/,
         include: path.resolve('src/client/stylesheets'),
         loaders: [
           'style',
-          'css?modules&importLoaders=1&localIdentName=[name]-[local]--[hash:base64:10]',
+          'css?modules',
           'sass'
         ]
       }
