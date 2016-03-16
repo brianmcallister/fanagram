@@ -3,6 +3,7 @@ import fs from 'fs';
 import express from 'express';
 import dotenv from 'dotenv';
 import instagram from 'instagram-node';
+import cookieParser from 'cookie-parser';
 
 dotenv.config();
 
@@ -18,8 +19,14 @@ api.use({
 
 app.set('publicPath', '/public');
 
+app.use(cookieParser(process.env.SECRET_KEY));
 app.use(app.get('publicPath'), express.static(path.resolve('public')));
 app.use(app.get('publicPath'), express.static(path.resolve('build/assets')));
+app.use((req, res, next) => {
+  console.log('received request', req.originalUrl);
+  console.log('cookies', req.cookies, req.signedCookies);
+  next();
+});
 
 app.get('/', (req, res) => {
   const publicDir = path.basename(app.get('publicPath'));
@@ -34,16 +41,26 @@ app.get('/login', (req, res) => {
   res.redirect(url);
 });
 
+app.get('/logout', (req, res) => {
+  res.clearCookie('token');
+  res.status(200).send('logged out');
+});
+
 app.get('/auth', (req, res) => {
   const code = req.query.code;
 
   api.authorize_user(code, process.env.REDIRECT_URL, (err, result) => {
     if (err) {
-      console.log('error: ', err.body);
-      res.status(500).send('error: ', err.body);
+      console.log('error: ', err);
+      res.status(500).send(err);
     } else {
       console.log('success', result);
-      res.status(200).send('success', result);
+      res.cookie('token', result.access_token, {
+        signed: true,
+        httpOnly: true
+      });
+
+      res.status(200).send(result);
     }
   });
 });
