@@ -7,7 +7,7 @@ var cmd = '';
 console.log(`Starting application in ${env} mode.`);
 
 if (env === 'development') {
-  cmd = 'npm run build-client && nodemon src/server/server.js';
+  cmd = 'npm run clean && npm run build-client && nodemon src/server/server.js';
 }
 
 var command = exec(cmd);
