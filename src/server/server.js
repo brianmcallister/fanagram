@@ -1,9 +1,10 @@
 import path from 'path';
 import fs from 'fs';
-import express from 'express';
 import dotenv from 'dotenv';
-import instagram from 'instagram-node';
+import express from 'express';
+import session from 'express-session';
 import cookieParser from 'cookie-parser';
+import instagram from 'instagram-node';
 
 dotenv.config();
 
@@ -19,17 +20,29 @@ api.use({
 
 app.set('publicPath', '/public');
 
-app.use(cookieParser(process.env.SECRET_KEY));
+app.use(session({
+  secret: process.env.SECRET_KEY,
+  resave: false,
+  saveUninitialized: true
+}));
 app.use(app.get('publicPath'), express.static(path.resolve('public')));
 app.use(app.get('publicPath'), express.static(path.resolve('build/assets')));
 app.use((req, res, next) => {
-  console.log('received request', req.originalUrl);
-  console.log('cookies', req.cookies, req.signedCookies);
+  console.log('session', req.session);
   next();
 });
 
 app.get('/', (req, res) => {
   const publicDir = path.basename(app.get('publicPath'));
+  const token = req.session.token;
+
+  const msg = !!req.session.token
+    ? 'user is logged in: ' + req.session.token
+    : 'user is logged out';
+
+  console.log('home route', msg);
+
+
   res.sendFile(path.resolve(publicDir, 'index.html'));
 });
 
@@ -42,7 +55,10 @@ app.get('/login', (req, res) => {
 });
 
 app.get('/logout', (req, res) => {
-  res.clearCookie('token');
+  req.session.destroy((err) => {
+    console.log('could not access session', err);
+  });
+
   res.status(200).send('logged out');
 });
 
@@ -55,11 +71,7 @@ app.get('/auth', (req, res) => {
       res.status(500).send(err);
     } else {
       console.log('success', result);
-      res.cookie('token', result.access_token, {
-        signed: true,
-        httpOnly: true
-      });
-
+      req.session.token = result.access_token;
       res.status(200).send(result);
     }
   });
