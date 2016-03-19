@@ -1,80 +1,61 @@
+require('dotenv').config()
+
 var path = require('path');
 var fs = require('fs');
-var dotenv = require('dotenv');
 var express = require('express');
 var session = require('express-session');
+var passport = require('passport');
+var InstragramStrategy = require('passport-instagram');
 var instagram = require('instagram-node');
 
-dotenv.config();
+passport.serializeUser((user, done) => done(null, user));
+passport.deserializeUser((obj, done) => done(null, obj));
 
-var devServer = require('../../tools/dev-server');
+passport.use(new InstragramStrategy({
+  clientID: process.env.CLIENT_ID,
+  clientSecret: process.env.CLIENT_SECRET,
+  callbackURL: process.env.REDIRECT_URL
+}, (accessToken, refreshToken, profile, done) => {
+  console.log('access', accessToken);
+  console.log('refresh', refreshToken);
+  console.log('profile', profile);
+  return done(null, profile);
+}));
 
 var api = instagram.instagram();
 var app = express();
+var auth = require('./middleware/auth');
 
-api.use({
-  client_id: process.env.CLIENT_ID,
-  client_secret: process.env.CLIENT_SECRET
-});
 
 app.set('publicPath', '/public');
-
 app.use(session({
   secret: process.env.SECRET_KEY,
   resave: false,
   saveUninitialized: true,
   name: 'fanasess'
 }));
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(app.get('publicPath'), express.static(path.resolve('public')));
 app.use(app.get('publicPath'), express.static(path.resolve('build/assets')));
-app.use((req, res, next) => {
-  console.log('session', req.session);
-  next();
-});
 
 app.get('/', (req, res) => {
+  console.log('user is logged in', req.isAuthenticated());
   const publicDir = path.basename(app.get('publicPath'));
-  const token = req.session.token;
-
-  const msg = !!req.session.token
-    ? 'user is logged in: ' + req.session.token
-    : 'user is logged out';
-
-  console.log('home route', msg);
-
-
   res.sendFile(path.resolve(publicDir, 'index.html'));
 });
 
-app.get('/login', (req, res) => {
-  var url = api.get_authorization_url(process.env.REDIRECT_URL, {
-    scope: ['basic']
-  });
-
-  res.redirect(url);
+app.get('/auth/instagram', passport.authenticate('instagram'));
+app.get('/auth', passport.authenticate('instagram', {
+  failureRedirect: '/asdfasdf'
+}), (req, res) => {
+  console.log('authenticated');
+  res.redirect('/');
 });
 
 app.get('/logout', (req, res) => {
-  req.session.destroy((err) => {
-    console.log('could not access session', err);
-  });
-
-  res.status(200).send('logged out');
-});
-
-app.get('/auth', (req, res) => {
-  const code = req.query.code;
-
-  api.authorize_user(code, process.env.REDIRECT_URL, (err, result) => {
-    if (err) {
-      console.log('error: ', err);
-      res.status(500).send(err);
-    } else {
-      console.log('success', result);
-      req.session.token = result.access_token;
-      res.status(200).send(result);
-    }
-  });
+  req.logout();
+  res.redirect('/');
 });
 
 app.get('/api/test', (req, res) => {
@@ -87,6 +68,8 @@ app.listen(8000, () => {
 });
 
 if (process.env.NODE_ENV === 'development') {
+  var devServer = require('../../tools/dev-server');
+
   devServer.listen(8001, () => {
     console.log('Dev server listening on port', 8001);
   });
