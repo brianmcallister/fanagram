@@ -4,6 +4,7 @@ var path = require('path');
 var fs = require('fs');
 var express = require('express');
 var session = require('express-session');
+var morgan = require('morgan');
 var passport = require('passport');
 var InstragramStrategy = require('passport-instagram');
 var instagram = require('instagram-node');
@@ -26,8 +27,8 @@ var api = instagram.instagram();
 var app = express();
 var auth = require('./middleware/auth');
 
-
 app.set('publicPath', '/public');
+app.use(morgan('combined'));
 app.use(session({
   secret: process.env.SECRET_KEY,
   resave: false,
