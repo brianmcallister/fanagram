@@ -1,17 +1,16 @@
-import path from 'path';
-import fs from 'fs';
-import dotenv from 'dotenv';
-import express from 'express';
-import session from 'express-session';
-import cookieParser from 'cookie-parser';
-import instagram from 'instagram-node';
+var path = require('path');
+var fs = require('fs');
+var dotenv = require('dotenv');
+var express = require('express');
+var session = require('express-session');
+var instagram = require('instagram-node');
 
 dotenv.config();
 
-import devServer from 'dev_server';
+var devServer = require('../../tools/dev-server');
 
-let api = instagram.instagram();
-let app = express();
+var api = instagram.instagram();
+var app = express();
 
 api.use({
   client_id: process.env.CLIENT_ID,
@@ -23,7 +22,8 @@ app.set('publicPath', '/public');
 app.use(session({
   secret: process.env.SECRET_KEY,
   resave: false,
-  saveUninitialized: true
+  saveUninitialized: true,
+  name: 'fanasess'
 }));
 app.use(app.get('publicPath'), express.static(path.resolve('public')));
 app.use(app.get('publicPath'), express.static(path.resolve('build/assets')));
@@ -47,7 +47,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/login', (req, res) => {
-  let url = api.get_authorization_url(process.env.REDIRECT_URL, {
+  var url = api.get_authorization_url(process.env.REDIRECT_URL, {
     scope: ['basic']
   });
 
