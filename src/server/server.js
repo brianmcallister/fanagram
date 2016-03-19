@@ -86,6 +86,8 @@ app.listen(8000, () => {
   console.log('Listening on port', 8000);
 });
 
-devServer.listen(8001, () => {
-  console.log('Dev server listening on port', 8001);
-});
+if (process.env.NODE_ENV === 'development') {
+  devServer.listen(8001, () => {
+    console.log('Dev server listening on port', 8001);
+  });
+}
