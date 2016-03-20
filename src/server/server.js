@@ -61,7 +61,12 @@ app.get('/logout', (req, res) => {
 
 app.get('/api/test', (req, res) => {
   const contents = fs.readFileSync(path.resolve('tools/dev_data.json'));
-  res.json(JSON.parse(contents));
+
+  const resp = {
+    loggedIn: req.isAuthenticated()
+  };
+
+  res.json(resp);
 });
 
 app.listen(8000, () => {

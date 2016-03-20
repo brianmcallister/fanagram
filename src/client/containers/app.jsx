@@ -20,10 +20,19 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 class App extends React.Component {
+  request() {
+    fetch('/api/test', { credentials: 'include' })
+      .then(resp => console.log(resp))
+      .catch(err => console.log(err));
+  }
+
   render() {
     return (
       <Provider store={this.props.store}>
-        <HelloWorld { ...this.props } />
+        <div>
+          <button onClick={this.request.bind(this)}>click</button>
+          <HelloWorld { ...this.props } />
+        </div>
       </Provider>
     );
   }
