@@ -14,6 +14,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     onButtonClick: (input) => {
+      console.log('dispatch', dispatch);
       dispatch(incrementCount(input))
     }
   }

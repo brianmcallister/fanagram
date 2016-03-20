@@ -25,6 +25,9 @@ var app = express();
 var auth = require('./middleware/auth');
 
 app.set('publicPath', '/public');
+app.set('views', path.resolve(__dirname, 'views'));
+app.set('view engine', 'ejs');
+
 app.use(morgan('combined'));
 app.use(session({
   secret: process.env.SECRET_KEY,
@@ -39,8 +42,11 @@ app.use(app.get('publicPath'), express.static(path.resolve('build/assets')));
 
 app.get('/', (req, res) => {
   console.log('user is logged in', req.isAuthenticated());
-  const publicDir = path.basename(app.get('publicPath'));
-  res.sendFile(path.resolve(publicDir, 'index.html'));
+  const state = {
+    loggedIn: req.isAuthenticated()
+  };
+
+  res.render('index', { state: JSON.stringify(state) });
 });
 
 app.get('/auth/instagram', passport.authenticate('instagram'));
