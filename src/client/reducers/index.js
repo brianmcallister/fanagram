@@ -9,7 +9,12 @@ const count = (state = 0, action) => {
   return state;
 }
 
+const loggedIn = (state = null, action) => {
+  return state;
+}
+
 const rootReducer = combineReducers({
+  loggedIn,
   count
 });
 

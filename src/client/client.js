@@ -8,6 +8,7 @@ import configureStore from 'store/configureStore';
 import App from 'containers/app';
 
 const store = configureStore({
+  loggedIn: null,
   count: 0
 });
 

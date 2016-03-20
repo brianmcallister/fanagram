@@ -17,9 +17,6 @@ passport.use(new InstragramStrategy({
   clientSecret: process.env.CLIENT_SECRET,
   callbackURL: process.env.REDIRECT_URL
 }, (accessToken, refreshToken, profile, done) => {
-  console.log('access', accessToken);
-  console.log('refresh', refreshToken);
-  console.log('profile', profile);
   return done(null, profile);
 }));
 

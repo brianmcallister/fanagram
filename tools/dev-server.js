@@ -11,6 +11,9 @@ var server = new WebpackDevServer(compiler, {
   historyApiFallback: true,
   noInfo: true,
   hot: true,
+  headers: {
+    'Access-Control-Allow-Origin': '*'
+  },
   stats: {
     colors: true,
   },
