@@ -7,7 +7,6 @@ import ReactDOM from 'react-dom';
 import configureStore from 'store/configureStore';
 import App from 'containers/app';
 
-console.log('initial', window.__INITIAL_STATE__);
 const serverState = window.__INITIAL_STATE__ || {};
 
 const initialState = {

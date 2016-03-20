@@ -7,10 +7,6 @@
 
 .blue {
   color: blue;
-
-  &:before {
-    content: $hello;
-  }
 }
 
 :global(p) {

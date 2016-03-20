@@ -62,6 +62,14 @@ app.get('/logout', (req, res) => {
   res.redirect('/');
 });
 
+app.get('/api/user', (req, res) => {
+  const user = req.user;
+
+  console.log('user', user);
+
+  res.status(200).json({ user });
+});
+
 app.get('/api/test', (req, res) => {
   const contents = fs.readFileSync(path.resolve('tools/dev_data.json'));
 

@@ -14,7 +14,6 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     onButtonClick: (input) => {
-      console.log('dispatch', dispatch);
       dispatch(incrementCount(input))
     }
   }
@@ -27,10 +26,17 @@ class App extends React.Component {
       .catch(err => console.log(err));
   }
 
+  componentWillMount() {
+    fetch('/api/user', { credentials: 'include' })
+      .then(resp => console.log(resp))
+      .catch(err => console.log(err));
+  }
+
   render() {
     return (
       <Provider store={this.props.store}>
         <div>
+          <p>loading...</p>
           <button onClick={this.request.bind(this)}>click</button>
           <HelloWorld { ...this.props } />
         </div>
