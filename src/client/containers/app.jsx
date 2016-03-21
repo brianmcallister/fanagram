@@ -1,35 +1,24 @@
 import React from 'react';
 import { Provider, connect } from 'react-redux';
 
-import { incrementCount } from 'actions';
-import HelloWorld from 'components/hello_world';
 import styles from 'stylesheets/style.scss'
+import { userDataLoad } from 'actions';
+import HelloWorld from 'components/hello_world';
 
 const mapStateToProps = (state) => {
-  return {
-    count: state.count
-  }
+  return { ...state }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onButtonClick: (input) => {
-      dispatch(incrementCount(input))
-    }
+    onButtonClick: input => dispatch(incrementCount(input)),
+    userDataLoad: () => dispatch(userDataLoad())
   }
 }
 
 class App extends React.Component {
-  request() {
-    fetch('/api/test', { credentials: 'include' })
-      .then(resp => console.log(resp))
-      .catch(err => console.log(err));
-  }
-
   componentWillMount() {
-    fetch('/api/user', { credentials: 'include' })
-      .then(resp => console.log(resp))
-      .catch(err => console.log(err));
+    this.props.userDataLoad();
   }
 
   render() {
@@ -37,8 +26,7 @@ class App extends React.Component {
       <Provider store={this.props.store}>
         <div>
           <p>loading...</p>
-          <button onClick={this.request.bind(this)}>click</button>
-          <HelloWorld { ...this.props } />
+          <p>{JSON.stringify(this.props)}</p>
         </div>
       </Provider>
     );

@@ -42,9 +42,7 @@ app.use(app.get('publicPath'), express.static(path.resolve('build/assets')));
 
 app.get('/', (req, res) => {
   console.log('user is logged in', req.isAuthenticated());
-  const state = {
-    loggedIn: req.isAuthenticated()
-  };
+  const state = {};
 
   res.render('index', { state: JSON.stringify(state) });
 });
@@ -63,21 +61,20 @@ app.get('/logout', (req, res) => {
 });
 
 app.get('/api/user', (req, res) => {
-  const user = req.user;
+  var user;
+
+  if (req.user) {
+    user = {
+      id: req.user.id,
+      username: req.user.username
+    };
+  } else {
+    user = {};
+  }
 
   console.log('user', user);
 
-  res.status(200).json({ user });
-});
-
-app.get('/api/test', (req, res) => {
-  const contents = fs.readFileSync(path.resolve('tools/dev_data.json'));
-
-  const resp = {
-    loggedIn: req.isAuthenticated()
-  };
-
-  res.json(resp);
+  res.status(200).json(user);
 });
 
 app.listen(8000, () => {

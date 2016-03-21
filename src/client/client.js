@@ -10,8 +10,10 @@ import App from 'containers/app';
 const serverState = window.__INITIAL_STATE__ || {};
 
 const initialState = {
-  loggedIn: null,
-  count: 0
+  user: {
+    loggedIn: null,
+    loading: false
+  }
 };
 
 const store = configureStore({ ...initialState, ...serverState });

@@ -1,21 +1,27 @@
 import { combineReducers } from 'redux';
 
-const count = (state = 0, action) => {
+const loggedIn = (state = null, action) => {
+  return state;
+}
+
+const user = (state = {}, action) => {
   switch (action.type) {
-    case 'INCREMENT_COUNT':
-      return state + 1;
+    case 'USER_DATA_REQUEST':
+      return { ...state, loading: true };
+    case 'USER_DATA_RECEIVE':
+      return {
+        ...state,
+        ...action.data,
+        loading: false,
+        loggedIn: true
+      };
   }
 
   return state;
 }
 
-const loggedIn = (state = null, action) => {
-  return state;
-}
-
 const rootReducer = combineReducers({
-  loggedIn,
-  count
+  user
 });
 
 export default rootReducer;
