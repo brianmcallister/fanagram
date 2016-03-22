@@ -1,2 +1,1 @@
-import user from './user';
-export { user as user };
+export * from './user';
