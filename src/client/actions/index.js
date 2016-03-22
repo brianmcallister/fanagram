@@ -1,9 +1,3 @@
-export function incrementCount() {
-  return {
-    type: 'INCREMENT_COUNT'
-  }
-}
-
 export function userDataRequest() {
   return {
     type: 'USER_DATA_REQUEST'

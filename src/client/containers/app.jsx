@@ -21,11 +21,25 @@ class App extends React.Component {
     this.props.userDataLoad();
   }
 
+  renderMessage() {
+    const { user } = this.props;
+
+    if (user.loading) {
+      return <p>loading...</p>
+    }
+
+    if (user.loggedIn) {
+      return <p>welcome back {user.username} | <a href="/logout">logout</a></p>
+    }
+
+    return <a href="/auth/instagram">login</a>;
+  }
+
   render() {
     return (
       <Provider store={this.props.store}>
         <div>
-          <p>loading...</p>
+          {this.renderMessage()}
           <p>{JSON.stringify(this.props)}</p>
         </div>
       </Provider>
