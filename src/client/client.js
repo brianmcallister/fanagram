@@ -12,8 +12,8 @@ const serverState = window.__INITIAL_STATE__ || {};
 const initialState = {
   user: {
     loggedIn: null,
-    loading: false
-  }
+    loading: false,
+  },
 };
 
 const store = configureStore({ ...initialState, ...serverState });

@@ -1,20 +1,41 @@
 import React from 'react';
 import { Provider, connect } from 'react-redux';
 
-import styles from 'stylesheets/style.scss'
+import styles from 'stylesheets/style.scss'; // eslint-disable-line
 import { userDataLoad } from 'actions';
-import HelloWorld from 'components/hello_world';
 
-const mapStateToProps = (state) => {
-  return { ...state }
-}
+const {
+  bool,
+  func,
+  object,
+  shape,
+  string,
+} = React.PropTypes;
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    onButtonClick: input => dispatch(incrementCount(input)),
-    userDataLoad: () => dispatch(userDataLoad())
+const propTypes = {
+  store: object.isRequired,
+  user: shape({
+    id: string,
+    loading: bool.isRequired,
+    loggedIn: bool.isRequired,
+    username: string,
+  }),
+  userDataLoad: func,
+};
+
+const defaultProps = {
+
+};
+
+const mapStateToProps = (state) => (
+  { ...state }
+);
+
+const mapDispatchToProps = (dispatch) => (
+  {
+    userDataLoad: () => dispatch(userDataLoad()),
   }
-}
+);
 
 class App extends React.Component {
   componentWillMount() {
@@ -25,11 +46,11 @@ class App extends React.Component {
     const { user } = this.props;
 
     if (user.loading) {
-      return <p>loading...</p>
+      return <p>loading...</p>;
     }
 
     if (user.loggedIn) {
-      return <p>welcome back {user.username}. | <a href="/logout">logout</a></p>
+      return <p>welcome back {user.username}. | <a href="/logout">logout</a></p>;
     }
 
     return <a href="/auth/instagram">login</a>;
@@ -46,5 +67,8 @@ class App extends React.Component {
     );
   }
 }
+
+App.propTypes = propTypes;
+App.defaultProps = defaultProps;
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

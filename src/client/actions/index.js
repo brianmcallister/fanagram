@@ -1,30 +1,30 @@
 export function userDataRequest() {
   return {
-    type: 'USER_DATA_REQUEST'
-  }
+    type: 'USER_DATA_REQUEST',
+  };
 }
 
 export function userDataReceive(data) {
   return {
     type: 'USER_DATA_RECEIVE',
-    data
-  }
+    data,
+  };
 }
 
 export function userDataError(error) {
   return {
     type: 'USER_DATA_ERROR',
-    error
-  }
+    error,
+  };
 }
 
 export function userDataLoad() {
-  return (dispatch, getState) => {
+  return (dispatch) => {
     dispatch(userDataRequest());
 
     fetch('/api/user', { credentials: 'include' })
       .then(resp => resp.json())
       .then(resp => dispatch(userDataReceive(resp)))
       .catch(err => dispatch(userDataError(err)));
-  }
+  };
 }

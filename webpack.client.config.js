@@ -20,6 +20,13 @@ module.exports = {
     extensions: ['', '.js', '.jsx']
   },
   module: {
+    preLoaders: [
+      {
+        test: /.jsx?/,
+        include: path.resolve('src'),
+        loaders: ['eslint']
+      }
+    ],
     loaders: [
       {
         test: /.jsx?$/,
