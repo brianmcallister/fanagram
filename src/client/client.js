@@ -11,7 +11,7 @@ const serverState = window.__INITIAL_STATE__ || {};
 
 const initialState = {
   user: {
-    loggedIn: null,
+    loggedIn: false,
     loading: false,
   },
 };

@@ -50,7 +50,7 @@ class App extends React.Component {
     }
 
     if (user.loggedIn) {
-      return <p>welcome back {user.username}. | <a href="/logout">logout</a></p>;
+      return <p>Welcome back {user.username}. | <a href="/logout">logout</a></p>;
     }
 
     return <a href="/auth/instagram">login</a>;

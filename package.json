@@ -6,6 +6,7 @@
   "scripts": {
     "build-client": "webpack --progress --config webpack.client.config.js &",
     "clean": "rm -rf build",
+    "lint": "eslint src --ext .js,.jsx",
     "start": "node scripts/start.js"
   },
   "author": "",
