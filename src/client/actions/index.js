@@ -22,7 +22,7 @@ export function userDataLoad() {
   return (dispatch) => {
     dispatch(userDataRequest());
 
-    fetch('/api/user', { credentials: 'include' })
+    return fetch('/api/user', { credentials: 'include' })
       .then(resp => resp.json())
       .then(resp => dispatch(userDataReceive(resp)))
       .catch(err => dispatch(userDataError(err)));
